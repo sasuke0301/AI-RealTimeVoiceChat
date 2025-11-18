@@ -663,32 +663,17 @@ export function ConsolePage() {
             </div>
           </div>
           <div className="content-actions">
-            {/* <Toggle
-              defaultValue={false}
-              labels={['manual', 'vad']}
-              values={['none', 'server_vad']}
-              onChange={(_, value) => changeTurnEndType(value)}
-            /> */}
             <div className="spacer" />
-            {isConnected && canPushToTalk && (
+            { canPushToTalk && (
               <Button
                 label={isRecording ? 'release to send' : 'push to talk'}
                 buttonStyle={isRecording ? 'alert' : 'regular'}
-                disabled={!isConnected || !canPushToTalk}
+                disabled={!canPushToTalk}
                 onMouseDown={startRecording}
                 onMouseUp={stopRecording}
               />
             )}
             <div className="spacer" />
-            <Button
-              label={isConnected ? 'disconnect' : 'connect'}
-              iconPosition={isConnected ? 'end' : 'start'}
-              icon={isConnected ? X : Zap}
-              buttonStyle={isConnected ? 'regular' : 'action'}
-              onClick={
-                isConnected ? disconnectConversation : connectConversation
-              }
-            />
           </div>
         </div>
       </div>
