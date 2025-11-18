@@ -115,7 +115,7 @@ export function ConsolePage() {
   const [expandedEvents, setExpandedEvents] = useState<{
     [key: string]: boolean;
   }>({});
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(true);
   const [canPushToTalk, setCanPushToTalk] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
   const [memoryKv, setMemoryKv] = useState<{ [key: string]: any }>({});
@@ -197,26 +197,26 @@ export function ConsolePage() {
   /**
    * Disconnect and reset conversation state
    */
-  const disconnectConversation = useCallback(async () => {
-    setIsConnected(false);
-    setRealtimeEvents([]);
-    setItems([]);
-    setMemoryKv({});
-    setCoords({
-      lat: 37.775593,
-      lng: -122.418137,
-    });
-    setMarker(null);
+  // const disconnectConversation = useCallback(async () => {
+  //   setIsConnected(false);
+  //   setRealtimeEvents([]);
+  //   setItems([]);
+  //   setMemoryKv({});
+  //   setCoords({
+  //     lat: 37.775593,
+  //     lng: -122.418137,
+  //   });
+  //   setMarker(null);
 
-    const client = clientRef.current;
-    client.disconnect();
+  //   const client = clientRef.current;
+  //   client.disconnect();
 
-    const wavRecorder = wavRecorderRef.current;
-    await wavRecorder.end();
+  //   const wavRecorder = wavRecorderRef.current;
+  //   await wavRecorder.end();
 
-    const wavStreamPlayer = wavStreamPlayerRef.current;
-    await wavStreamPlayer.interrupt();
-  }, []);
+  //   const wavStreamPlayer = wavStreamPlayerRef.current;
+  //   await wavStreamPlayer.interrupt();
+  // }, []);
 
   const deleteConversationItem = useCallback(async (id: string) => {
     const client = clientRef.current;
@@ -674,7 +674,7 @@ export function ConsolePage() {
               />
             )}
             <div className="spacer" />
-            <Button
+            {/* <Button
               label={isConnected ? 'disconnect' : 'connect'}
               iconPosition={isConnected ? 'end' : 'start'}
               icon={isConnected ? X : Zap}
@@ -682,7 +682,7 @@ export function ConsolePage() {
               onClick={
                 isConnected ? disconnectConversation : connectConversation
               }
-            />
+            /> */}
           </div>
         </div>
       </div>
