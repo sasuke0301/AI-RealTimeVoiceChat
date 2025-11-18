@@ -163,6 +163,30 @@ export function ConsolePage() {
    * WavRecorder taks speech input, WavStreamPlayer output, client is API client
    */
   const connectConversation = useCallback(async () => {
+    setIsConnected(false);
+    setRealtimeEvents([]);
+    setItems([]);
+    setMemoryKv({});
+    setCoords({
+      lat: 37.775593,
+      lng: -122.418137,
+    });
+    setMarker(null);
+
+    const client = clientRef.current;
+    client.disconnect();
+
+    const wavRecorder = wavRecorderRef.current;
+    await wavRecorder.end();
+
+    const wavStreamPlayer = wavStreamPlayerRef.current;
+    await wavStreamPlayer.interrupt();
+  }, []);
+
+  /**
+   * Disconnect and reset conversation state
+   */
+  const disconnectConversation = useCallback(async () => {
     const client = clientRef.current;
     const wavRecorder = wavRecorderRef.current;
     const wavStreamPlayer = wavStreamPlayerRef.current;
@@ -193,30 +217,6 @@ export function ConsolePage() {
       await wavRecorder.record((data) => client.appendInputAudio(data.mono));
     }
   }, []);
-
-  /**
-   * Disconnect and reset conversation state
-   */
-  // const disconnectConversation = useCallback(async () => {
-  //   setIsConnected(false);
-  //   setRealtimeEvents([]);
-  //   setItems([]);
-  //   setMemoryKv({});
-  //   setCoords({
-  //     lat: 37.775593,
-  //     lng: -122.418137,
-  //   });
-  //   setMarker(null);
-
-  //   const client = clientRef.current;
-  //   client.disconnect();
-
-  //   const wavRecorder = wavRecorderRef.current;
-  //   await wavRecorder.end();
-
-  //   const wavStreamPlayer = wavStreamPlayerRef.current;
-  //   await wavStreamPlayer.interrupt();
-  // }, []);
 
   const deleteConversationItem = useCallback(async (id: string) => {
     const client = clientRef.current;
@@ -674,15 +674,6 @@ export function ConsolePage() {
               />
             )}
             <div className="spacer" />
-            {/* <Button
-              label={isConnected ? 'disconnect' : 'connect'}
-              iconPosition={isConnected ? 'end' : 'start'}
-              icon={isConnected ? X : Zap}
-              buttonStyle={isConnected ? 'regular' : 'action'}
-              onClick={
-                isConnected ? disconnectConversation : connectConversation
-              }
-            /> */}
           </div>
         </div>
       </div>
