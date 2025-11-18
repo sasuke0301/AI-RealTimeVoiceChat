@@ -675,6 +675,7 @@ export function ConsolePage() {
               />
             )}
             <div className="spacer" />
+            
             <Button
               label={isConnected ? 'connect' : 'disconnect'}
               iconPosition={isConnected ? 'start' : 'end'}
