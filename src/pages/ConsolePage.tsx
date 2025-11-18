@@ -664,7 +664,7 @@ export function ConsolePage() {
           </div>
           <div className="content-actions">
             <div className="spacer" />
-            { canPushToTalk && (
+            { (
               <Button
                 label={isRecording ? 'release to send' : 'push to talk'}
                 buttonStyle={isRecording ? 'alert' : 'regular'}
