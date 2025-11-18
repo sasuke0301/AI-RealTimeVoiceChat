@@ -691,7 +691,7 @@ export function ConsolePage() {
             />
           </div>
         </div>
-        <div className="content-right">
+        {/* <div className="content-right">
           <div className="content-block map">
             <div className="content-block-title">get_weather()</div>
             <div className="content-block-title bottom">
@@ -724,7 +724,7 @@ export function ConsolePage() {
               {JSON.stringify(memoryKv, null, 2)}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
