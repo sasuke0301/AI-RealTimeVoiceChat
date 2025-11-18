@@ -115,7 +115,7 @@ export function ConsolePage() {
   const [expandedEvents, setExpandedEvents] = useState<{
     [key: string]: boolean;
   }>({});
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(true);
   const [canPushToTalk, setCanPushToTalk] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
   const [memoryKv, setMemoryKv] = useState<{ [key: string]: any }>({});
@@ -162,43 +162,43 @@ export function ConsolePage() {
    * Connect to conversation:
    * WavRecorder taks speech input, WavStreamPlayer output, client is API client
    */
-  const connectConversation = useCallback(async () => {
-    const client = clientRef.current;
-    const wavRecorder = wavRecorderRef.current;
-    const wavStreamPlayer = wavStreamPlayerRef.current;
+  // const connectConversation = useCallback(async () => {
+  //   const client = clientRef.current;
+  //   const wavRecorder = wavRecorderRef.current;
+  //   const wavStreamPlayer = wavStreamPlayerRef.current;
 
-    // Set state variables
-    startTimeRef.current = new Date().toISOString();
-    setIsConnected(true);
-    setRealtimeEvents([]);
-    setItems(client.conversation.getItems());
+  //   // Set state variables
+  //   startTimeRef.current = new Date().toISOString();
+  //   setIsConnected(true);
+  //   setRealtimeEvents([]);
+  //   setItems(client.conversation.getItems());
 
-    // Connect to microphone
-    await wavRecorder.begin();
+  //   // Connect to microphone
+  //   await wavRecorder.begin();
 
-    // Connect to audio output
-    await wavStreamPlayer.connect();
+  //   // Connect to audio output
+  //   await wavStreamPlayer.connect();
 
-    // Connect to realtime API
-    await client.connect();
-    client.sendUserMessageContent([
-      {
-        type: `input_text`,
-        text: `Hello!`,
-        // text: `For testing purposes, I want you to list ten car brands. Number each item, e.g. "one (or whatever number you are one): the item name".`
-      },
-    ]);
+  //   // Connect to realtime API
+  //   await client.connect();
+  //   client.sendUserMessageContent([
+  //     {
+  //       type: `input_text`,
+  //       text: `Hello!`,
+  //       // text: `For testing purposes, I want you to list ten car brands. Number each item, e.g. "one (or whatever number you are one): the item name".`
+  //     },
+  //   ]);
 
-    if (client.getTurnDetectionType() === 'server_vad') {
-      await wavRecorder.record((data) => client.appendInputAudio(data.mono));
-    }
-  }, []);
+  //   if (client.getTurnDetectionType() === 'server_vad') {
+  //     await wavRecorder.record((data) => client.appendInputAudio(data.mono));
+  //   }
+  // }, []);
 
   /**
    * Disconnect and reset conversation state
    */
   const disconnectConversation = useCallback(async () => {
-    setIsConnected(false);
+    setIsConnected(true);
     setRealtimeEvents([]);
     setItems([]);
     setMemoryKv({});
@@ -675,7 +675,7 @@ export function ConsolePage() {
               />
             )}
             <div className="spacer" />
-            <Button
+            {/* <Button
               label={isConnected ? 'disconnect' : 'connect'}
               iconPosition={isConnected ? 'end' : 'start'}
               icon={isConnected ? X : Zap}
@@ -683,7 +683,7 @@ export function ConsolePage() {
               onClick={
                 isConnected ? disconnectConversation : connectConversation
               }
-            />
+            /> */}
           </div>
         </div>
       </div>
