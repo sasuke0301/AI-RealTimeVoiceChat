@@ -115,7 +115,7 @@ export function ConsolePage() {
   const [expandedEvents, setExpandedEvents] = useState<{
     [key: string]: boolean;
   }>({});
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(true);
   const [canPushToTalk, setCanPushToTalk] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
   const [memoryKv, setMemoryKv] = useState<{ [key: string]: any }>({});
@@ -663,18 +663,19 @@ export function ConsolePage() {
             </div>
           </div>
           <div className="content-actions">
+
             <div className="spacer" />
-            {isConnected && canPushToTalk && (
+            { canPushToTalk && (
               <Button
                 label={isRecording ? 'release to send' : 'push to talk'}
                 buttonStyle={isRecording ? 'alert' : 'regular'}
-                disabled={!isConnected || !canPushToTalk}
+                disabled={ !canPushToTalk}
                 onMouseDown={startRecording}
                 onMouseUp={stopRecording}
               />
             )}
             <div className="spacer" />
-            <Button
+            {/* <Button
               label={isConnected ? 'disconnect' : 'connect'}
               iconPosition={isConnected ? 'end' : 'start'}
               icon={isConnected ? X : Zap}
@@ -682,7 +683,7 @@ export function ConsolePage() {
               onClick={
                 isConnected ? disconnectConversation : connectConversation
               }
-            />
+            /> */}
           </div>
         </div>
       </div>
