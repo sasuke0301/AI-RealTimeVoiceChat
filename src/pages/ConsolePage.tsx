@@ -664,16 +664,25 @@ export function ConsolePage() {
           </div>
           <div className="content-actions">
             <div className="spacer" />
-            { (
+            {isConnected && canPushToTalk && (
               <Button
                 label={isRecording ? 'release to send' : 'push to talk'}
                 buttonStyle={isRecording ? 'alert' : 'regular'}
-                disabled={!canPushToTalk}
+                disabled={!isConnected || !canPushToTalk}
                 onMouseDown={startRecording}
                 onMouseUp={stopRecording}
               />
             )}
             <div className="spacer" />
+            <Button
+              label={isConnected ? 'disconnect' : 'connect'}
+              iconPosition={isConnected ? 'end' : 'start'}
+              icon={isConnected ? X : Zap}
+              buttonStyle={isConnected ? 'regular' : 'action'}
+              onClick={
+                isConnected ? disconnectConversation : connectConversation
+              }
+            />
           </div>
         </div>
       </div>
