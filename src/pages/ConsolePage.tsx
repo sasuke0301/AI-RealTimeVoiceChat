@@ -115,7 +115,7 @@ export function ConsolePage() {
   const [expandedEvents, setExpandedEvents] = useState<{
     [key: string]: boolean;
   }>({});
-  const [isConnected, setIsConnected] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
   const [canPushToTalk, setCanPushToTalk] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
   const [memoryKv, setMemoryKv] = useState<{ [key: string]: any }>({});
@@ -169,7 +169,7 @@ export function ConsolePage() {
 
     // Set state variables
     startTimeRef.current = new Date().toISOString();
-    setIsConnected(false);
+    setIsConnected(true);
     setRealtimeEvents([]);
     setItems(client.conversation.getItems());
 
@@ -198,7 +198,7 @@ export function ConsolePage() {
    * Disconnect and reset conversation state
    */
   const disconnectConversation = useCallback(async () => {
-    setIsConnected(true);
+    setIsConnected(false);
     setRealtimeEvents([]);
     setItems([]);
     setMemoryKv({});
@@ -676,12 +676,12 @@ export function ConsolePage() {
             )}
             <div className="spacer" />
             <Button
-              label={isConnected ? 'disconnect' : 'connect'}
-              iconPosition={isConnected ? 'end' : 'start'}
-              icon={isConnected ? X : Zap}
-              buttonStyle={isConnected ? 'regular' : 'action'}
+              label={!isConnected ? 'disconnect' : 'connect'}
+              iconPosition={!isConnected ? 'end' : 'start'}
+              icon={!isConnected ? X : Zap}
+              buttonStyle={!isConnected ? 'regular' : 'action'}
               onClick={
-                isConnected ? disconnectConversation : connectConversation
+                !isConnected ? disconnectConversation : connectConversation
               }
             />
           </div>
