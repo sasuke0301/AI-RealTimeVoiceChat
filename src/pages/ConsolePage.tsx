@@ -676,12 +676,12 @@ export function ConsolePage() {
             )}
             <div className="spacer" />
             <Button
-              label={!isConnected ? 'disconnect' : 'connect'}
-              iconPosition={!isConnected ? 'end' : 'start'}
-              icon={!isConnected ? X : Zap}
-              buttonStyle={!isConnected ? 'regular' : 'action'}
+              label={isConnected ? 'disconnect' : 'connect'}
+              iconPosition={isConnected ? 'end' : 'start'}
+              icon={isConnected ? X : Zap}
+              buttonStyle={isConnected ? 'regular' : 'action'}
               onClick={
-                !isConnected ? disconnectConversation : connectConversation
+                isConnected ? disconnectConversation : connectConversation
               }
             />
           </div>
