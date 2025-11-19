@@ -19,7 +19,7 @@ import { WavRecorder, WavStreamPlayer } from '../lib/wavtools/index.js';
 import { instructions } from '../utils/conversation_config.js';
 import { WavRenderer } from '../utils/wav_renderer';
 
-import { X, Edit, ArrowUp, ArrowDown, Mic, Menu, Play, Send } from 'react-feather';
+import { X, Edit, ArrowUp, ArrowDown } from 'react-feather';
 import { Button } from '../components/button/Button';
 import { Map } from '../components/Map';
 
@@ -676,86 +676,19 @@ export function ConsolePage() {
               })}
             </div>
           </div>
-        </div>
-        
-        {/* Right Panel - Audio Controls */}
-        <div className="content-right-panel">
-          <div className="audio-history">
-            {items.filter(item => item.role === 'user' || item.role === 'assistant').map((conversationItem, i) => (
-              <div 
-                key={conversationItem.id} 
-                className={`audio-item ${conversationItem.role}`}
-              >
-                <div className="audio-avatar">
-                  {conversationItem.role === 'assistant' && (
-                    <img src="/openai-logomark.svg" alt="AI" />
-                  )}
-                  {conversationItem.role === 'user' && (
-                    <Mic size={24} />
-                  )}
-                </div>
-                <div className="audio-content">
-                  <button className="play-button">
-                    <Play size={16} fill="white" />
-                  </button>
-                  <div className="audio-time">0:20</div>
-                  <div className="audio-waveform">
-                    {Array.from({ length: 40 }).map((_, idx) => (
-                      <div 
-                        key={idx} 
-                        className="bar" 
-                        style={{ height: `${Math.random() * 100}%` }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="control-panel">
-            {isRecording && canPushToTalk && (
-              <div className="active-recording">
-                <button className="play-button">
-                  <Play size={16} fill="white" />
-                </button>
-                <div className="audio-time">0:20</div>
-                <div className="audio-waveform">
-                  {Array.from({ length: 50 }).map((_, idx) => (
-                    <div 
-                      key={idx} 
-                      className="bar" 
-                      style={{ height: `${Math.random() * 100}%` }}
-                    />
-                  ))}
-                </div>
-                <button className="send-button" onClick={stopRecording}>
-                  <Send size={20} />
-                </button>
-              </div>
+          <div className="content-actions">
+
+            <div className="spacer" />
+            { canPushToTalk && (
+              <Button
+                label={isRecording ? 'release to send' : 'push to talk'}
+                buttonStyle={isRecording ? 'alert' : 'regular'}
+                disabled={ !canPushToTalk}
+                onMouseDown={startRecording}
+                onMouseUp={stopRecording}
+              />
             )}
-            
-            <div className="mic-controls">
-              <button className="control-button">
-                <Menu size={24} />
-              </button>
-              
-              {canPushToTalk && (
-                <button 
-                  className={`mic-button ${isRecording ? 'recording' : ''}`}
-                  onMouseDown={startRecording}
-                  onMouseUp={stopRecording}
-                  onTouchStart={startRecording}
-                  onTouchEnd={stopRecording}
-                >
-                  <Mic size={48} />
-                </button>
-              )}
-              
-              <button className="control-button" onClick={disconnectConversation}>
-                <X size={24} />
-              </button>
-            </div>
+            <div className="spacer" />
           </div>
         </div>
       </div>
