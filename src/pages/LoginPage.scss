@@ -1,0 +1,228 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  
+  .login-container {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 48px;
+    max-width: 450px;
+    width: 100%;
+    animation: slideUp 0.5s ease-out;
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+  
+  .login-header {
+    text-align: center;
+    margin-bottom: 40px;
+    
+    .logo {
+      font-size: 72px;
+      margin-bottom: 16px;
+      animation: bounce 2s infinite;
+      
+      @keyframes bounce {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+    }
+    
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #2d3748;
+      margin: 0 0 8px 0;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      color: #718096;
+      margin: 0;
+    }
+  }
+  
+  .login-form {
+    .form-group {
+      margin-bottom: 24px;
+      
+      label {
+        display: block;
+        font-size: 14px;
+        font-weight: 600;
+        color: #4a5568;
+        margin-bottom: 8px;
+      }
+      
+      input {
+        width: 100%;
+        padding: 14px 16px;
+        font-size: 16px;
+        border: 2px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+        
+        &:focus {
+          outline: none;
+          border-color: #667eea;
+          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        &:disabled {
+          background-color: #f7fafc;
+          cursor: not-allowed;
+          opacity: 0.6;
+        }
+        
+        &::placeholder {
+          color: #cbd5e0;
+        }
+      }
+    }
+    
+    .error-message {
+      background-color: #fed7d7;
+      border: 2px solid #fc8181;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #c53030;
+      font-size: 14px;
+      font-weight: 500;
+      animation: shake 0.5s ease;
+      
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+      }
+      
+      .error-icon {
+        font-size: 20px;
+      }
+    }
+    
+    .login-button {
+      width: 100%;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
+      
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+      
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      }
+    }
+  }
+  
+  .login-footer {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e8f0;
+    
+    .help-text {
+      text-align: center;
+      font-size: 13px;
+      color: #718096;
+      margin: 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+// Tablet optimization
+@media (max-width: 768px) {
+  .login-page {
+    .login-container {
+      padding: 32px 24px;
+    }
+    
+    .login-header {
+      .logo {
+        font-size: 60px;
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+    }
+    
+    .login-form {
+      .form-group input {
+        font-size: 16px; // Prevent zoom on iOS
+      }
+    }
+  }
+}
+
+// Large touch targets for tablets
+@media (hover: none) and (pointer: coarse) {
+  .login-page {
+    .login-form {
+      .form-group input {
+        padding: 18px 16px;
+        font-size: 18px;
+      }
+      
+      .login-button {
+        padding: 20px;
+        font-size: 20px;
+      }
+    }
+  }
+}
+

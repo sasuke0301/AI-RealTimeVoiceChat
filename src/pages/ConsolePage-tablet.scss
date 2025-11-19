@@ -1,0 +1,333 @@
+// Tablet-optimized styles for AI Teacher System
+// Import this in ConsolePage.scss
+
+.console-page-tablet {
+  // Override default console styles for tablet use
+  
+  // Large, child-friendly PTT button
+  .content-actions {
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    
+    .ptt-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .ptt-button {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 8px solid #fff;
+      background: #4CAF50;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      
+      &:active:not(.disabled) {
+        transform: scale(0.95);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      }
+      
+      &.recording {
+        background: #f44336;
+        animation: pulse 1s infinite;
+        
+        @keyframes pulse {
+          0%, 100% { 
+            opacity: 1;
+            box-shadow: 0 8px 24px rgba(244, 67, 54, 0.5);
+          }
+          50% { 
+            opacity: 0.8;
+            box-shadow: 0 8px 48px rgba(244, 67, 54, 0.8);
+          }
+        }
+      }
+      
+      &.disabled {
+        background: #9E9E9E;
+        cursor: not-allowed;
+        opacity: 0.5;
+        
+        .ptt-icon {
+          opacity: 0.5;
+        }
+      }
+      
+      .ptt-icon {
+        font-size: 72px;
+        margin-bottom: 8px;
+        line-height: 1;
+      }
+      
+      .ptt-text {
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        line-height: 1.2;
+      }
+    }
+    
+    .usage-info {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-size: 16px;
+      color: #4a5568;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      
+      .usage-count {
+        color: #667eea;
+        font-size: 18px;
+      }
+      
+      &.low {
+        .usage-count {
+          color: #f44336;
+        }
+      }
+    }
+  }
+  
+  // Error message overlay for children
+  .error-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.98);
+    padding: 40px 60px;
+    border-radius: 24px;
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    z-index: 1000;
+    animation: fadeInOut 3s ease;
+    max-width: 80vw;
+    
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+      10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+    
+    .error-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block;
+    }
+  }
+  
+  // Conversation display optimized for children
+  .conversation-item {
+    margin: 16px 0;
+    padding: 20px;
+    border-radius: 16px;
+    font-size: 18px;
+    line-height: 1.6;
+    
+    &.user {
+      background: #e3f2fd;
+      margin-left: 40px;
+      
+      .speaker {
+        color: #1976d2;
+        font-weight: 700;
+        margin-bottom: 8px;
+        font-size: 16px;
+        
+        &::before {
+          content: '👤 ';
+        }
+      }
+    }
+    
+    &.assistant {
+      background: #f3e5f5;
+      margin-right: 40px;
+      
+      .speaker {
+        color: #7b1fa2;
+        font-weight: 700;
+        margin-bottom: 8px;
+        font-size: 16px;
+        
+        &::before {
+          content: '🤖 ';
+        }
+      }
+    }
+    
+    .speaker-content {
+      font-size: 20px;
+      color: #2d3748;
+    }
+  }
+  
+  // Loading states
+  .ai-thinking {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-size: 20px;
+    color: #667eea;
+    
+    .thinking-dots {
+      display: inline-block;
+      margin-left: 8px;
+      
+      span {
+        animation: blink 1.4s infinite;
+        
+        &:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+        
+        &:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+        
+        @keyframes blink {
+          0%, 100% { opacity: 0.2; }
+          50% { opacity: 1; }
+        }
+      }
+    }
+  }
+  
+  // Tablet-specific header
+  .content-top {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+    color: white;
+    
+    .content-title {
+      font-size: 28px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+    
+    .user-info {
+      margin-top: 8px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+  }
+}
+
+// Large touch targets for tablets
+@media (hover: none) and (pointer: coarse) {
+  .console-page-tablet {
+    .ptt-button {
+      width: 200px;
+      height: 200px;
+      
+      .ptt-icon {
+        font-size: 80px;
+      }
+      
+      .ptt-text {
+        font-size: 22px;
+      }
+    }
+    
+    button, .clickable {
+      min-height: 44px; // Apple's recommended minimum
+      min-width: 44px;
+    }
+  }
+}
+
+// Landscape orientation optimization
+@media (orientation: landscape) {
+  .console-page-tablet {
+    .content-actions {
+      min-height: 180px;
+      
+      .ptt-button {
+        width: 160px;
+        height: 160px;
+        
+        .ptt-icon {
+          font-size: 64px;
+        }
+      }
+    }
+  }
+}
+
+// Portrait orientation optimization
+@media (orientation: portrait) {
+  .console-page-tablet {
+    .content-actions {
+      min-height: 220px;
+      
+      .ptt-button {
+        width: 200px;
+        height: 200px;
+      }
+    }
+    
+    .conversation-item {
+      &.user {
+        margin-left: 20px;
+      }
+      
+      &.assistant {
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
+// Child-friendly success/encouragement messages
+.success-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+  z-index: 999;
+  animation: slideInRight 0.5s ease;
+  
+  @keyframes slideInRight {
+    from {
+      transform: translateX(400px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
+

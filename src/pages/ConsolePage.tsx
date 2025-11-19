@@ -52,19 +52,21 @@ interface RealtimeEvent {
   event: { [key: string]: any };
 }
 
-export function ConsolePage() {
+interface ConsolePageProps {
+  userId: string;
+}
+
+export function ConsolePage({ userId }: ConsolePageProps) {
   /**
-   * Ask user for API Key
-   * If we're using the local relay server, we don't need this
+   * For relay server, no API key needed in browser
+   * userId is passed from authentication
    */
-  const apiKey = LOCAL_RELAY_SERVER_URL
-    ? ''
-    : localStorage.getItem('tmp::voice_api_key') ||
-      prompt('OpenAI API Key') ||
-      '';
-  if (apiKey !== '') {
-    localStorage.setItem('tmp::voice_api_key', apiKey);
-  }
+  const apiKey = LOCAL_RELAY_SERVER_URL ? '' : '';
+  
+  // Child-friendly error messages
+  const [errorMessage, setErrorMessage] = useState('');
+  const [responseTime, setResponseTime] = useState<number>(0);
+  const [responseStartTime, setResponseStartTime] = useState<number | null>(null);
 
   /**
    * Instantiate:
@@ -81,7 +83,7 @@ export function ConsolePage() {
   const clientRef = useRef<RealtimeClient>(
     new RealtimeClient(
       LOCAL_RELAY_SERVER_URL
-        ? { url: LOCAL_RELAY_SERVER_URL }
+        ? { url: `${LOCAL_RELAY_SERVER_URL}?userId=${userId}` }
         : {
             apiKey: apiKey,
             dangerouslyAllowAPIKeyInBrowser: true,
@@ -226,11 +228,28 @@ export function ConsolePage() {
   }, []);
 
   /**
+   * Show child-friendly error message
+   */
+  const showChildFriendlyError = (message?: string) => {
+    const errorMessages = [
+      'もう一度ゆっくり言ってね！',
+      '大丈夫だよ、先生がちゃんと聞いているよ！',
+      'うーん、聞こえなかったかな？もう一度言ってくれる？'
+    ];
+    const randomError = message || errorMessages[
+      Math.floor(Math.random() * errorMessages.length)
+    ];
+    setErrorMessage(randomError);
+    setTimeout(() => setErrorMessage(''), 3000);
+  };
+
+  /**
    * In push-to-talk mode, start recording
    * .appendInputAudio() for each sample
    */
   const startRecording = async () => {
     setIsRecording(true);
+    setResponseStartTime(Date.now());
     const client = clientRef.current;
     const wavRecorder = wavRecorderRef.current;
     const wavStreamPlayer = wavStreamPlayerRef.current;
@@ -251,6 +270,15 @@ export function ConsolePage() {
     const wavRecorder = wavRecorderRef.current;
     await wavRecorder.pause();
     client.createResponse();
+    
+    // Monitor response time
+    if (responseStartTime) {
+      const elapsed = Date.now() - responseStartTime;
+      setResponseTime(elapsed);
+      if (elapsed > 5000) {
+        showChildFriendlyError('ちょっと待ってね、先生が考えているよ！');
+      }
+    }
   };
 
   /**
@@ -470,7 +498,18 @@ export function ConsolePage() {
         }
       });
     });
-    client.on('error', (event: any) => console.error(event));
+    client.on('error', (event: any) => {
+      console.error('[ConsolePage] Error:', event);
+      
+      // Show child-friendly error based on error type
+      if (event.error?.message?.includes('usage limit')) {
+        showChildFriendlyError('今月の利用回数がいっぱいになりました。');
+      } else if (event.error?.message?.includes('network')) {
+        showChildFriendlyError('インターネットの調子が悪いみたい。もう一度試してね。');
+      } else {
+        showChildFriendlyError();
+      }
+    });
     client.on('conversation.interrupted', async () => {
       const trackSampleOffset = await wavStreamPlayer.interrupt();
       if (trackSampleOffset?.trackId) {
@@ -677,19 +716,31 @@ export function ConsolePage() {
             </div>
           </div>
           <div className="content-actions">
-
-            <div className="spacer" />
-            { canPushToTalk && (
-              <Button
-                label={isRecording ? 'release to send' : 'push to talk'}
-                buttonStyle={isRecording ? 'alert' : 'regular'}
-                disabled={ !canPushToTalk}
-                onMouseDown={startRecording}
-                onMouseUp={stopRecording}
-              />
-            )}
-            <div className="spacer" />
+            <div className="ptt-container">
+              {canPushToTalk && (
+                <button
+                  className={`ptt-button ${isRecording ? 'recording' : ''} ${!isConnected ? 'disabled' : ''}`}
+                  disabled={!canPushToTalk || !isConnected}
+                  onTouchStart={startRecording}
+                  onTouchEnd={stopRecording}
+                  onMouseDown={startRecording}
+                  onMouseUp={stopRecording}
+                >
+                  <div className="ptt-icon">🎤</div>
+                  <div className="ptt-text">
+                    {isRecording ? '話しています...' : 'おして はなす'}
+                  </div>
+                </button>
+              )}
+            </div>
           </div>
+          
+          {errorMessage && (
+            <div className="error-overlay">
+              <span className="error-icon">💬</span>
+              {errorMessage}
+            </div>
+          )}
         </div>
       </div>
     </div>

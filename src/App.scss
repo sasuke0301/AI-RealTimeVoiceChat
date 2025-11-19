@@ -2,4 +2,37 @@
   height: 100%;
   width: 100%;
   position: relative;
+  
+  // Loading state styles
+  &.app-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    
+    .loading-container {
+      text-align: center;
+      color: white;
+      
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 6px solid rgba(255, 255, 255, 0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+      
+      p {
+        font-size: 18px;
+        font-weight: 500;
+        margin: 0;
+      }
+      
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    }
+  }
 }
