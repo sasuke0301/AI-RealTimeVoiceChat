@@ -180,8 +180,9 @@ export function ConsolePage() {
     // Connect to realtime API
     await client.connect();
     
-    // Wait 1.75 seconds before sending initial greeting
-    await new Promise(resolve => setTimeout(resolve, 12750));
+    // Wait 7-12 seconds before sending initial greeting
+    const delayMs = 7000 + Math.random() * 5000; // Random delay between 7-12 seconds
+    await new Promise(resolve => setTimeout(resolve, delayMs));
     
     client.sendUserMessageContent([
       {
