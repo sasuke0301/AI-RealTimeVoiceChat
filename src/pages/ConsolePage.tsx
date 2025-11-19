@@ -181,7 +181,7 @@ export function ConsolePage() {
     await client.connect();
     
     // Wait 1.75 seconds before sending initial greeting
-    await new Promise(resolve => setTimeout(resolve, 2750));
+    await new Promise(resolve => setTimeout(resolve, 12750));
     
     client.sendUserMessageContent([
       {
