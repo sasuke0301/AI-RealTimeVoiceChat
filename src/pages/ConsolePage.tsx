@@ -19,13 +19,11 @@ import { WavRecorder, WavStreamPlayer } from '../lib/wavtools/index.js';
 import { instructions } from '../utils/conversation_config.js';
 import { WavRenderer } from '../utils/wav_renderer';
 
-import { X, Edit, Zap, ArrowUp, ArrowDown } from 'react-feather';
+import { X, Edit, ArrowUp, ArrowDown } from 'react-feather';
 import { Button } from '../components/button/Button';
-import { Toggle } from '../components/toggle/Toggle';
 import { Map } from '../components/Map';
 
 import './ConsolePage.scss';
-import { isJsxOpeningLikeElement } from 'typescript';
 
 /**
  * Type for result from get_weather() function call
@@ -501,6 +499,18 @@ export function ConsolePage() {
   }, []);
 
   /**
+   * Auto-connect on component mount
+   */
+  useEffect(() => {
+    connectConversation();
+
+    return () => {
+      // cleanup on unmount
+      disconnectConversation();
+    };
+  }, [connectConversation, disconnectConversation]);
+
+  /**
    * Render the application
    */
   return (
@@ -675,15 +685,6 @@ export function ConsolePage() {
               />
             )}
             <div className="spacer" />
-            <Button
-              label={isConnected ? 'disconnect' : 'connect'}
-              iconPosition={isConnected ? 'end' : 'start'}
-              icon={isConnected ? X : Zap}
-              buttonStyle={isConnected ? 'regular' : 'action'}
-              onClick={
-                isConnected ? disconnectConversation : connectConversation
-              }
-            />
           </div>
         </div>
       </div>
