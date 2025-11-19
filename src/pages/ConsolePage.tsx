@@ -179,6 +179,10 @@ export function ConsolePage() {
 
     // Connect to realtime API
     await client.connect();
+    
+    // Wait 1.75 seconds before sending initial greeting
+    await new Promise(resolve => setTimeout(resolve, 1750));
+    
     client.sendUserMessageContent([
       {
         type: `input_text`,
